@@ -8,59 +8,59 @@ import { Eye, ShieldAlert, Timer, Heart, Play, Trophy, CheckCircle, XCircle, Awa
 const GAME_LEVELS = [
   {
     id: 1, category: "Manos y Dedos",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Manos)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(6+Dedos)",
+    realUrl: "/images/1-real.jpg", 
+    aiUrl: "/images/1-ia.jpg",
     hint: "La anatomía humana es el talón de Aquiles de la IA.",
-    explanation: "Los modelos difusivos aprenden patrones 2D, no la estructura ósea 3D. Generan manos con 6 dedos o pulgares en ángulos anatómicamente imposibles."
+    explanation: "Los modelos difusivos aprenden patrones 2D, no la estructura ósea 3D. Generan manos con 6 dedos o pulgares en ángulos imposibles."
   },
   {
     id: 2, category: "Texto y Carteles",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Cartel)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(Texto+Raro)",
+    realUrl: "/images/2-real.jpg", 
+    aiUrl: "/images/2-ia.jpg",
     hint: "Busca letras, letreros de fondo o marcas en ropa.",
-    explanation: "Los modelos de IA gráfica no procesan el lenguaje como texto, sino que 'dibujan' formas que se asemejan a letras, creando símbolos incomprensibles."
+    explanation: "La IA gráfica no procesa el lenguaje como texto, dibuja formas que se asemejan a letras, creando símbolos incomprensibles."
   },
   {
     id: 3, category: "Ojos y Simetría",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Ojos)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(Asimetria)",
+    realUrl: "/images/3-real.jpg", 
+    aiUrl: "/images/3-ia.jpg",
     hint: "El alma está en los ojos. Míralos de cerca.",
-    explanation: "La IA suele procesar cada ojo por separado según su contexto inmediato, perdiendo la simetría facial y creando reflejos de luz de direcciones opuestas."
+    explanation: "La IA suele procesar cada ojo por separado según su contexto inmediato, perdiendo la simetría facial y creando reflejos opuestos."
   },
   {
     id: 4, category: "Accesorios",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Gafas)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(Gafas+Mal)",
+    realUrl: "/images/4-real.jpg", 
+    aiUrl: "/images/4-ia.jpg",
     hint: "Gafas, pendientes, collares. Revisa cómo interactúan con la piel.",
-    explanation: "El modelo tiene dificultad para entender la separación de capas (metal vs. tejido humano), fundiendo los aros de las gafas directamente con la mejilla."
+    explanation: "Dificultad para entender la separación de capas (metal vs tejido humano), fundiendo los aros de las gafas directamente con la mejilla."
   },
   {
     id: 5, category: "Física y Reflejos",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Espejo)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(Sombra+Mal)",
+    realUrl: "/images/5-real.jpg", 
+    aiUrl: "/images/5-ia.jpg",
     hint: "Las leyes de la física no aplican para la Inteligencia Artificial.",
-    explanation: "La IA no simula la luz ni la óptica; simplemente colorea píxeles. Esto crea sombras que no coinciden con la fuente de luz o reflejos rotos."
+    explanation: "La IA no simula la luz ni la óptica; simplemente colorea píxeles. Esto crea sombras erróneas o reflejos rotos en el agua o espejos."
   },
   {
     id: 6, category: "Multitudes y Fondos",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Fondo)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(Derretidos)",
+    realUrl: "/images/6-real.jpg", 
+    aiUrl: "/images/6-ia.jpg",
     hint: "No mires el sujeto principal, mira a la gente de atrás.",
-    explanation: "La IA concentra sus recursos en el sujeto principal (prompt focus), descuidando el ruido de fondo y creando personas sin rostro o derretidas."
+    explanation: "La IA concentra sus recursos en el sujeto principal (prompt focus), descuidando el ruido de fondo y creando personas derretidas."
   },
   {
     id: 7, category: "Dientes",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Sonrisa)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(100+Dientes)",
+    realUrl: "/images/7-real.jpg", 
+    aiUrl: "/images/7-ia.jpg",
     hint: "Las sonrisas de la IA pueden ser aterradoras si cuentas bien.",
-    explanation: "Al igual que con los dedos, la IA entiende el patrón 'blanco-línea-blanco', pero no conoce el número límite ni la estructura maxilar humana."
+    explanation: "La IA entiende el patrón 'blanco-línea-blanco', pero no conoce el número límite ni la estructura maxilar, creando bocas con exceso de dientes."
   },
   {
     id: 8, category: "Arquitectura Ilógica",
-    realUrl: "https://dummyimage.com/800x600/1e293b/06b6d4&text=FOTO+REAL+(Edificio)",
-    aiUrl: "https://dummyimage.com/800x600/1e293b/10b981&text=DEEPFAKE+(Escalera+Rota)",
+    realUrl: "/images/8-real.jpg", 
+    aiUrl: "/images/8-ia.jpg",
     hint: "Sigue las líneas de las estructuras.",
-    explanation: "Pérdida de la coherencia estructural a largo plazo. Puedes encontrar escaleras que terminan en una pared sólida o ventanas mezcladas con ladrillos."
+    explanation: "Pérdida de la coherencia estructural a largo plazo. Escaleras que terminan en la nada o ventanas mezcladas con ladrillos."
   }
 ]
 
