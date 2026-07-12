@@ -1,80 +1,127 @@
-# 🕵️‍♂️ Proyecto Vibecoding: "Real o Deepfake"
+# 🕵️‍♂️ Real o Deepfake - Supervivencia Visual
 
-**Desarrollador:** Alfredo Javier Mejia Cardoza 
+Un minijuego web interactivo con arquitectura Cliente-Servidor diseñado para entrenar el ojo humano en la detección de anomalías generadas por Inteligencia Artificial (Deepfakes). 
 
----
-
-## Arquitectura del Proyecto
-El proyecto está rigurosamente dividido en dos entornos:
-*   `/src`: Frontend en React (Orquestador y Componentes UI).
-*   `/backend`: API en FastAPI (Lógica de conexión segura y Prompts de IA).
-*   `/public/images`: Almacenamiento de assets estáticos optimizados.
-*   `/ia_skills`: Documentación de ingeniería de prompts internos.
+Este proyecto integra un motor de IA generativa de ultra-baja latencia para proporcionar retroalimentación dinámica y técnica al jugador en tiempo real.
 
 ---
 
-## 🛠️ Herramienta Activa: El Auditor de Código (`Auditor_Codigo.md`)
+## 1. Tecnologías y Arquitectura
 
-Este archivo contiene un prompt avanzado diseñado para auditar la base del código del proyecto.
+El proyecto fue diseñado bajo el principio de **Separación de Responsabilidades (Clean Architecture)** para garantizar modularidad, seguridad y escalabilidad:
 
-### ¿Por qué funciona?
-La efectividad de esta Skill radica en sus estrictas reglas de comportamiento (*System Prompting*):
-1.  **Rol Definido:** Asume la postura de un Arquitecto de Software Senior.
-2.  **Trigger Específico:** Se activa únicamente ante el comando "analiza el código".
-3.  **Límites Claros (Solo Lectura):** Tiene prohibido refactorizar o reescribir el código directamente. Su función es diagnosticar deudas técnicas, fallas de seguridad (ej. vulnerabilidades CORS) y mala gestión de estados en React. La decisión de aplicar los cambios recae exclusivamente en el Líder del Proyecto.
+### Frontend (Interfaz de Usuario)
+* **React + Vite:** Seleccionados por su extrema rapidez en el entorno de desarrollo y su capacidad de actualización de estados (HMR).
+* **Tailwind CSS:** Framework de utilidades CSS utilizado para crear una interfaz moderna (UI/UX) sin depender de pesadas hojas de estilo externas.
+* **Lucide React:** Librería de iconografía vectorial ligera.
 
-### ¿Cómo usarlo?
-1. Copia todo el contenido del archivo `Auditor_Codigo.md`.
-2. Pégalo en tu asistente de IA de preferencia como instrucción de sistema o primer mensaje.
-3. Envía el comando `analiza el código` seguido del bloque de código que deseas auditar.
+### Backend (Lógica y Seguridad)
+* **Python + FastAPI:** Elegido por su manejo asíncrono nativo y rapidez. El backend actúa como un escudo de seguridad: su propósito principal es mantener las credenciales (API Keys) ocultas del cliente y orquestar las peticiones HTTP.
+* **Uvicorn:** Servidor ASGI para correr FastAPI en desarrollo y producción.
 
----
-
-## 1. Aplicación o Mini-juego Funcional
-"Real o Deepfake" es una aplicación web interactiva desarrollada con React, Vite y Tailwind CSS. El objetivo es entrenar la vista del usuario para detectar imágenes generadas por Inteligencia Artificial. El jugador tiene 15 segundos y 3 vidas por nivel para identificar qué imagen contiene errores sutiles (deepfake). La app funciona sin errores críticos, cuenta con un temporizador funcional, sistema de puntuación dinámico y está publicada en Vercel.
+### Motor de Inteligencia Artificial
+* **Groq API (Modelo Llama 3.1 - 8B):** Inicialmente concebido con Google Gemini, se realizó un pivoteo arquitectónico hacia Groq. La decisión técnica se basó en los LPUs (Language Processing Units) de Groq, que ofrecen inferencia en milisegundos, eliminando los cuellos de botella en la experiencia del usuario y evitando los errores de disponibilidad detectados en los niveles gratuitos de Gemini.
 
 ---
 
-## 2. Evidencia de Vibecoding (Prompts Utilizados)
-Durante el desarrollo, utilicé técnicas avanzadas de *prompt engineering* para guiar a la IA. A continuación se muestran 3 ejemplos estructurados de cómo me comuniqué con mi copiloto:
+## 2. Personalización de Agentes (IA Skills)
 
-### Prompt 1: Creación de la Interfaz Base (UI)
-* **Rol del Asistente:** Actúa como un Desarrollador Senior de React y experto en Tailwind CSS.
-* **Tarea Específica y Contexto:** Necesito código para crear la estructura visual de un juego llamado "Real o Deepfake". Genera un panel superior (HUD) que muestre 3 corazones para las vidas, el nivel actual y un contador de puntaje.
-* **Restricciones y Criterios de Éxito:** Utiliza Tailwind CSS con un tema oscuro y moderno. Mantén todo el código dentro de un solo archivo (`App.jsx`). No crees múltiples componentes separados por ahora.
-* **Ejemplo de Salida Deseada:** Un bloque de código funcional con iconos de `lucide-react` y variables de estado (`useState`) listas para usarse.
-> **¿Por qué se refinó?** El primer resultado era visualmente bueno, pero estático. Tuve que refinar el prompt para pedirle que los corazones estuvieran vinculados a una variable para poder restarlos más adelante.
+Este proyecto no solo consume una API, sino que utiliza **Prompt Engineering Avanzado** para crear agentes con roles específicos:
 
-### Prompt 2: Lógica del Temporizador
-* **Rol del Asistente:** Eres un experto en lógica de programación y asincronismo en React.
-* **Tarea Específica y Contexto:** Necesito implementar un temporizador estricto de 15 segundos para cada ronda usando el hook `useEffect`. 
-* **Restricciones y Criterios de Éxito:** Si el tiempo llega a cero, el jugador debe perder una vida automáticamente. El reloj debe detenerse en el instante en que el usuario hace clic en una imagen.
-* **Ejemplo de Salida Deseada:** Un bloque de código centrado solo en el `useEffect` que muestre cómo restar un segundo cada 1000 milisegundos sin causar errores de memoria.
-> **¿Por qué se refinó?** El reloj inicialmente seguía corriendo en el fondo o se aceleraba. Se ajustó el prompt para pedir explícitamente una función de limpieza (`clearInterval`) para estabilizar el temporizador.
+### A. Agente In-Game (Generador de Pistas Técnico)
+Ubicado en el backend (`skills.py`). Este agente recibe el tema del nivel y genera un objeto JSON puro. Su rol está restringido para no saludar ni divagar; debe proveer un `hint` misterioso y una `explanation` técnica de por qué los modelos difusivos fallan en aspectos anatómicos o de refracción de luz (ej. la incapacidad de la IA para renderizar la estructura ósea 3D de las manos). **Funciona mediante un blindaje anti-crash en React**, que convierte cualquier error de formato de la IA en texto seguro para evitar que la pantalla colapse.
 
-### Prompt 3: Creación de Assets (Imágenes con IA)
-* **Rol del Asistente:** Actúa como un experto en Ingeniería de Prompts para generación de imágenes (DALL-E 3 / Midjourney).
-* **Tarea Específica y Contexto:** Necesito prompts en inglés para generar las imágenes falsas del juego. El objetivo es que el jugador tarde en encontrar el error.
-* **Restricciones y Criterios de Éxito:** Los errores deben ser **muy sutiles** (ej. un reflejo incorrecto o un dedo ligeramente deforme). La imagen real y la falsa deben tener la misma temática, iluminación y tamaño para que no sea obvio cuál es cuál. 
-> **¿Por qué se refinó?** Al principio la IA sugería monstruosidades evidentes. Se iteró la instrucción para aumentar la dificultad y lograr el concepto de "engaño sutil".
+### B. Agente Auditor de Código (Directorio `ia_skills`)
+Una herramienta de control de calidad interna documentada en `ia_skills/Auditor_Codigo.md`. Es un "Prompt Estructural" que parametriza a cualquier LLM externo para actuar como un Arquitecto de Software Senior.
+* **Por qué funciona:** Está limitado por reglas estrictas. Utiliza un *trigger* ("analiza el código") y opera en modo de **Solo Lectura**. Tiene prohibido reescribir código; únicamente diagnostica deudas técnicas (como configuraciones de CORS inseguras) y propone refactorizaciones, respetando el criterio del Líder de Proyecto.
 
 ---
 
-## 3. Iteración y Mejora
-La mejora más significativa se dio en la **gestión de recursos visuales y dificultad**. En la primera versión, el juego usaba imágenes genéricas de relleno (`placeholders`) traídas de internet, lo cual hacía el juego monótono y rompía las imágenes si fallaba la conexión. 
+## 3. Clonar y preparar el entorno
 
-Iteré las instrucciones con la IA para rediseñar esta parte: creamos una carpeta local `/images`, descargamos fotografías reales y generamos nuestros propios Deepfakes sutiles. Además, armamos una estructura de datos (`GAME_LEVELS`) para incluir pistas explicativas tras cada ronda, convirtiendo un simple test en una herramienta de aprendizaje.
+Para que un nuevo desarrollador pueda ejecutar este proyecto localmente, debe seguir estos pasos.
 
----
-
-## 4. Validación del Resultado
-* **¿Cómo se probó?** Se probó en un entorno local ejecutando `npm run dev`. Puse a prueba el código fallando a propósito para ver la pantalla de *Game Over*, dejando que el tiempo llegara a 0, y superando los 8 niveles para confirmar que la pantalla de *Victoria* se mostrara correctamente.
-* **Limitación / Error resuelto:** Al publicar en Vercel, las imágenes dejaron de verse. Gracias a la depuración con IA, descubrí que los servidores de Vercel (Linux) son sensibles a las mayúsculas/minúsculas (*Case Sensitivity*). Mi código buscaba `.jpg` pero el archivo decía `.JPG`. Se ajustó la nomenclatura de los archivos y se solucionó el problema de inmediato.
+```bash
+git clone [https://github.com/Alf123Mejia/real-o-deepfake.git](https://github.com/Alf123Mejia/real-o-deepfake.git)
+cd real-o-deepfake
+```
 
 ---
 
-## 5. Reflexión Final
-* **Qué aprendí usando IA:** Entendí que la IA no hace el trabajo por ti, sino que amplifica tus instrucciones. Dar un prompt ambiguo genera código inútil. Aprendí a estructurar mis peticiones definiendo roles, restricciones y ejemplos claros para obtener piezas funcionales a la primera.
-* **Ventajas y Límites del Vibecoding:** La ventaja principal es la velocidad; montar una interfaz completa con Tailwind toma minutos en lugar de horas. El límite es que la IA no tiene "sentido común visual". Como estudiante de diseño, me di cuenta de que la IA te da la lógica cruda, pero la intuición para crear una buena experiencia de usuario, elegir el nivel de dificultad adecuado y aplicar los fundamentos del diseño web sigue siendo 100% humana.
-* **Nivel de Comprensión:** Comprendo bien cómo estructurar la interfaz, manejar los estilos en Tailwind y utilizar estados básicos (`useState`) para cambiar pantallas. Necesito reforzar mi dominio sobre funciones asíncronas y el ciclo de vida de los componentes (como `useEffect`), ya que la lógica detrás de los temporizadores aún resulta un poco abstracta de escribir desde cero.
+## 4. Ejecución del Proyecto (Entorno de Desarrollo)
 
+El sistema requiere que el Cliente (React) y el Servidor (Python) corran simultáneamente. **Debes abrir dos terminales separadas.**
+
+### Terminal 1: Explorar e Iniciar el Servidor (Backend)
+Las credenciales nunca van en el código: se leen de variables de entorno.
+
+```bash
+cd backend
+
+# 1. Crear entorno virtual (Recomendado)
+python -m venv .venv
+
+# 2. Activar entorno (Windows)
+.venv\Scripts\activate
+
+# 3. Instalar dependencias necesarias
+pip install fastapi uvicorn requests python-dotenv
+
+# 4. Crear variables de entorno
+# Crea un archivo .env en la carpeta backend y agrega:
+# GROQ_API_KEY="tu_api_key_aqui"
+
+# 5. Ejecutar el servidor Python
+python -m uvicorn main:app --reload
+```
+*El servidor estará escuchando de forma segura en `http://127.0.0.1:8000` con protección CORS activada.*
+
+### Terminal 2: Iniciar la Interfaz (Frontend)
+Con la terminal ubicada en la raíz del proyecto (`real-o-deepfake`):
+
+```bash
+# 1. Instalar módulos de Node
+npm install
+
+# 2. Levantar el entorno de Vite
+npm run dev
+```
+*El juego estará disponible en tu navegador en `http://localhost:5173`.*
+
+---
+
+## 5. Estructura del Repo
+
+El proyecto está organizado en bloques modulares para garantizar su escalabilidad:
+
+```text
+.
+├── backend/                  # Servidor y Lógica de IA
+│   ├── .env                  # (Ignorado en Git) Variables de entorno secretas
+│   ├── agent.py              # Extracción y validación de la API Key
+│   ├── main.py               # Servidor FastAPI, Rutas y Middleware (CORS seguro)
+│   └── skills.py             # Prompting del Agente In-Game y conexión REST a Groq
+│
+├── ia_skills/                # Herramientas internas de desarrollo
+│   └── Auditor_Codigo.md     # Prompt estructural para auditoría de código
+│
+├── public/                   # Archivos estáticos públicos
+
+│
+├── src/                      # Código fuente del Frontend
+│   └── images/               # Assets del juego (indexación optimizada de Vite)
+│   │    ├── 1-real.jpg
+│   │    └── 1-ia.jpg
+│   ├── components/           # UI dividida por responsabilidades
+│   │   ├── Inicio.jsx        # Pantalla de bienvenida
+│   │   ├── Tablero.jsx       # Interfaz principal del juego y temporizador
+│   │   └── Victoria.jsx      # Pantallas de resultado final
+│   ├── App.jsx               # Orquestador: Manejo de estados (Hooks) y peticiones fetch
+│   ├── main.jsx              # Punto de entrada de React
+│   └── index.css             # Directivas globales de Tailwind
+│
+├── .gitignore                # Reglas de exclusión de seguridad (node_modules, .env)
+├── package.json              # Dependencias y scripts de Node.js
+├── tailwind.config.js        # Configuración de diseño
+└── README.md                 # Documentación técnica del proyecto
+```
